@@ -1,0 +1,5 @@
+python extract_embeddings.py     (for loading images, detect faces, and extract their embeddings using dlib)
+
+python recognize_faces_in_webcam.py  (using webcam it can recognize the faces)
+
+python recognize_faces_in_images.py   (upload a image to recognize)

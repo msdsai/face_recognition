@@ -1,0 +1,51 @@
+First we have to create the Images directory in which it contain folders named after different persons, each containing their respective images.
+
+
+extract_embeddings.py 
+
+libraries used:
+
+1. imutils for image processing utilities.
+2. face_recognition for face detection and recognition.
+3. pickle for serializing and deserializing Python objects.
+4. cv2 (OpenCV) for image processing.
+5. os for interacting with the operating system.
+
+First the code retrieves the paths of all images within the Images directory and its subdirectories and store those in imagePaths.
+Then we initialised two empty lists, knownEncodings and knownNames, are initialized to store the facial encodings and the corresponding names extracted from the images.
+
+Now we loop over every image path:
+-> Extracts the person’s name from the directory structure.
+-> Loads the image and converts it from BGR (used by OpenCV) to RGB (used by the face_recognition library).
+-> Detects faces in the image using the Histogram of Oriented Gradients (HOG) model.
+-> Computes the 128-dimensional facial encodings for each detected face.
+-> Stores the facial encodings and corresponding names in the initialized lists.
+
+Finally the facial encodings and names are saved into a dictionary with keys encodings and names.
+This dictionary is serialized using pickle and saved to a file named face_enc. This file can later be used for face recognition tasks.
+
+
+
+recognize_faces_in_webcam.py,recognize_faces_in_images.py
+
+First it locates the Haar cascade XML file, which is used for detecting faces in images.
+And we initialise CascadeClassifier object named faceCascade using the Haar cascade file located at cascPathface. This classifier will be used to detect faces in images or video frames.
+Pre-trained face encodings and corresponding names are loaded from a file named face_enc using the pickle module.
+
+(For recognize_faces_in_webcam.py )
+We initialise the webcam for video capture using cv2.VideoCapture(0).
+A message "Streaming started" is printed to indicate the beginning of the video feed.
+
+(For recognize_faces_in_webcam.py we take infinite loop but for recognize_faces_in_images.py no need of inifite loop)
+We infinite loop where it continuously captures frames from the webcam.
+Each frame is converted to grayscale, and faces are detected using the Haar cascade classifier.
+The frame is then converted to RGB color space for use with the face_recognition library.
+Facial encodings for detected faces in the frame are computed.
+For each encoding, we compares it with the known encodings loaded earlier.
+If a match is found, it determines the name of the person based on the most frequent match.
+If no match is found, the face is labeled as "Unknown".
+Finally we draw rectangles around detected faces and labels them with the recognized names.
+The annotated frame is displayed in a window using cv2.imshow.
+The loop continues to process frames until the 'q' key is pressed, which breaks the loop.
+
+Once the loop is exited, we release the video capture device and closes all OpenCV windows.
